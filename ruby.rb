@@ -1,7 +1,11 @@
 require 'uri'
 
+Versions = Struct.new(:a, :b, :c) do
+  def x
+    a + b * c
+  end
+end
 Language = Class.new
-
 class Ruby < Language
   attr_reader :name
 
@@ -35,7 +39,9 @@ class Ruby < Language
 end
 
 arr = []
-Ruby.new("test").to_h.each do |key, value|
+ruby = Ruby.new("latest")
+versions = Versions.new(1, 2, 3)
+ruby.to_h.each do |key, value|
   if value == nil 
     puts "Oops"	
   else
@@ -45,6 +51,7 @@ Ruby.new("test").to_h.each do |key, value|
     }
   end
 end
+puts versions&.x&.odd? # would be nice to highlight safe nagivation operator
 
 printer = ->(item) { puts item }
 arr.each(&printer)
