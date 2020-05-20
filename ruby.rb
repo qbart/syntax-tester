@@ -28,7 +28,11 @@ class Ruby < Language
     {
       name: name,
       version: @version,
-      at: Time.now
+      at: Time.now,
+      num: 3,
+      other: 2.15,
+      bool: true,
+      empty: nil
     }
   end
 
