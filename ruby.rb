@@ -1,11 +1,16 @@
+#!/usr/bin/env ruby
+
 require 'uri'
+include 'lib'
 
 Versions = Struct.new(:a, :b, :c) do
   def x
     a + b * c
   end
 end
+
 Language = Class.new
+
 class Ruby < Language
   attr_reader :name
 
@@ -26,7 +31,7 @@ class Ruby < Language
       at: Time.now
     }
   end
-  
+
   def matches?
     name =~ /World/i
   rescue => e # always use explicit class error
@@ -42,8 +47,8 @@ arr = []
 ruby = Ruby.new("latest")
 versions = Versions.new(1, 2, 3)
 ruby.to_h.each do |key, value|
-  if value == nil 
-    puts "Oops"	
+  if value == nil
+    puts "Oops"
   else
     arr << {
       'name' => key,
