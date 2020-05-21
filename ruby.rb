@@ -3,6 +3,10 @@
 require 'uri'
 include 'lib'
 
+puts __FILE__
+
+$globals_are_evil = STDIN
+
 Versions = Struct.new(:a, :b, :c) do
   def x
     a + b * c
@@ -11,13 +15,15 @@ end
 
 Language = Class.new
 
-class Ruby < Language
+class Langs::Ruby < Language
   attr_reader :name
 
   def initialize(name)
     @name = name
     @version = 3
     @arr = %w[one two three]
+    @s = <<~HEREDOC
+    HEREDOC
   end
 
   def each
@@ -32,7 +38,9 @@ class Ruby < Language
       num: 3,
       other: 2.15,
       bool: true,
-      empty: nil
+      empty: nil,
+      short: "hello",
+      long: "world"
     }
   end
 
@@ -41,17 +49,25 @@ class Ruby < Language
   rescue => e # always use explicit class error
     false
   end
+  
+  def <=>(other)
+    self.name <=> other.name
+  end
 
   def to_s
     "Hello #{name}"
   end
+
+  private 
+
+  def base!; super; end
 end
 
 arr = []
 ruby = Ruby.new("latest")
 versions = Versions.new(1, 2, 3)
 ruby.to_h.each do |key, value|
-  if value == nil
+  if value == nil && true
     puts "Oops"
   else
     arr << {
@@ -64,3 +80,4 @@ puts versions&.x&.odd? # would be nice to highlight safe nagivation operator
 
 printer = ->(item) { puts item }
 arr.each(&printer)
+puts arr.map(&:to_s)
