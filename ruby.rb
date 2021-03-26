@@ -16,11 +16,14 @@ end
 Language = Class.new
 
 class Langs::Ruby < Language
+  include Comparable
+
   attr_reader :name
 
   def initialize(name)
     @name = name
     @version = 3
+    @litarr = [1, 2, 3]
     @arr = %w[one two three]
     @s = <<~HEREDOC
     HEREDOC
@@ -42,6 +45,12 @@ class Langs::Ruby < Language
       short: "hello",
       long: "world"
     }
+  end
+
+  def keyowrds(hello: "world", *splat, **splat2)
+    if block_given?
+      yield User.where("name = :name", name: "John")
+    end
   end
 
   def matches?
